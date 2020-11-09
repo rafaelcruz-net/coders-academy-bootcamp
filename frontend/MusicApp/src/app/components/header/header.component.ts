@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   menuClicked() {
-    console.log('entrou');
     this.onMenuClick.emit();
   }
 }
