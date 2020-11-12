@@ -1,32 +1,67 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from '@angular/cdk/layout';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { MusicGridModule } from './music-grid/music-grid.module';
-import { MaterialModule } from './material.module';
+import { RouterModule, Routes } from '@angular/router';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+import 'hammerjs';
+
+import { FuseModule } from '@fuse/fuse.module';
+import { FuseSharedModule } from '@fuse/shared.module';
+import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
+
+import { fuseConfig } from 'app/fuse-config';
+
+import { AppComponent } from 'app/app.component';
+import { LayoutModule } from 'app/layout/layout.module';
+
+const appRoutes: Routes = [
+    {
+        path        : 'ui',
+        loadChildren: './main/ui/ui.module#UIModule'
+    },
+    {
+        path      : '**',
+        redirectTo: './main/ui/ui.module#UIModule'
+    }
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavigationComponent,
-    HeaderComponent,
-    FooterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    MaterialModule,
-    MusicGridModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent
+    ],
+    imports     : [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+
+        TranslateModule.forRoot(),
+
+        // Material moment date module
+        MatMomentDateModule,
+
+        // Material
+        MatButtonModule,
+        MatIconModule,
+
+        // Fuse modules
+        FuseModule.forRoot(fuseConfig),
+        FuseProgressBarModule,
+        FuseSharedModule,
+        FuseSidebarModule,
+        FuseThemeOptionsModule,
+
+        // App modules
+        LayoutModule,
+    ],
+    bootstrap   : [
+        AppComponent
+    ]
 })
-export class AppModule {}
+export class AppModule
+{
+}
