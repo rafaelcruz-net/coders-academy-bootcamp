@@ -1,0 +1,42 @@
+<div id="cards" class="page-layout simple fullwidth">
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="cards">
+            <div class="card" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]" (click)= "detail();">
+                <!-- PREVIEW -->
+                <div class="card-preview">
+                    <div class="fuse-card">
+                        <div
+                            class="p-16"
+                            fxLayout="row"
+                            fxLayoutAlign="space-between center"
+                        >
+                            <div class="pr-16">
+                                <div class="h1">Brooklyn</div>
+                                <div class="h4 secondary-text">
+                                    Travel guide
+                                </div>
+                            </div>
+
+                            <div class="w-80 h-80">
+                                <img
+                                    src="assets/images/cards/card2-small.jpg"
+                                />
+                            </div>
+                        </div>
+
+                        <div
+                            class="p-8 pt-0"
+                            fxLayout="row"
+                            fxLayoutAlign="start center"
+                        >
+                            <button mat-button color="accent">READ</button>
+                            <button mat-button color="accent">SHARE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

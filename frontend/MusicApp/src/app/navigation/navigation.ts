@@ -3,7 +3,7 @@ import { FuseNavigation } from '@fuse/types';
 export const navigation: FuseNavigation[] = [
     {
         id      : 'user-interface',
-        title   : 'User Interface',
+        title   : '',
         type    : 'group',
         icon    : 'web',
         children: [
@@ -218,6 +218,21 @@ export const navigation: FuseNavigation[] = [
                 type : 'item',
                 icon : 'color_lens',
                 url  : '/ui/colors'
+            }
+        ]
+    },
+    {
+        id      : 'principal',
+        title   : '',
+        type    : 'group',
+        icon    : 'web',
+        children: [
+            {
+                id   : 'music',
+                title: 'music',
+                type : 'item',
+                icon : 'crop_portrait',
+                url  : '/page/music'
             }
         ]
     }
