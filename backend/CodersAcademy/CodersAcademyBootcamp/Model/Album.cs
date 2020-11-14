@@ -14,5 +14,9 @@ namespace CodersAcademyBootcamp.Model
 
         public IList<Music> Musics { get; set; }
 
+        internal void AddMusic(Music music)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

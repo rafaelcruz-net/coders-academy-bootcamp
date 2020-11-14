@@ -1,3 +1,4 @@
+using AutoMapper;
 using CodersAcademyBootcamp.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,8 @@ namespace CodersAcademyBootcamp
             {
                 opt.UseSqlite(this.Configuration.GetConnectionString("BootcampConnection"));
             });
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddScoped<AlbumRepository>();
 
