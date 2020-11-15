@@ -24,4 +24,16 @@ export class UserService {
             payload
         );
     }
+    public addMusicToFavorite(userId, musicId): Observable<User> {
+        return this.http.post<User>(
+            `${environment.baseUrl}user/${userId}/favorite-music/${musicId}`,
+            null
+        );
+    }
+
+    public removeMusicFromFavorite(userId, musicId): Observable<User> {
+        return this.http.delete<User>(
+            `${environment.baseUrl}user/${userId}/favorite-music/${musicId}`
+        );
+    }
 }

@@ -20,7 +20,7 @@ namespace CodersAcademyBootcamp.Repository.Mapping
             builder.Property(x => x.Description).IsRequired().HasMaxLength(500);
             builder.Property(x => x.Backdrop).IsRequired();
 
-            builder.HasMany(x => x.Musics).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.Musics).WithOne(x => x.Album).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

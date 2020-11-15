@@ -2,8 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Album from "app/model/album.model";
 import Music from "app/model/music.model";
+import User from "app/model/user.model";
 import { MusicService } from "app/services/music.service";
+import { PersistenceService } from "app/services/persistence.service";
+import { UserService } from "app/services/user.service";
 import { forkJoin } from "rxjs";
+import Swal from "sweetalert2";
 
 @Component({
     selector: "app-music-detail",
@@ -15,11 +19,14 @@ export class MusicDetailComponent implements OnInit {
 
     album: Album;
     music: Music[];
+    user: User;
 
     constructor(
         private router: Router,
         private service: MusicService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private persistence: PersistenceService,
+        private userService: UserService
     ) {}
 
     ngOnInit() {
@@ -32,6 +39,8 @@ export class MusicDetailComponent implements OnInit {
             this.album = request[0];
             this.music = request[1];
         });
+
+        this.user = this.persistence.get("authenticate_user");
     }
     getMusicDuration(value: number) {
         const minutes: number = Math.floor(value / 60);
@@ -41,5 +50,39 @@ export class MusicDetailComponent implements OnInit {
     }
     back() {
         this.router.navigate(["page", "music"]);
+    }
+    toogleMusicFavorite(musicId) {
+        if (this.isFavoriteMusic(musicId) === false) {
+            this.userService
+                .addMusicToFavorite(this.user.id, musicId)
+                .subscribe((data) => {
+                    this.persistence.set("authenticate_user", data);
+                    this.user = data;
+                    Swal.fire(
+                        "Sucesso!",
+                        "Musica adicionada ao favoritos",
+                        "success"
+                    );
+                });
+        } else {
+            this.userService
+                .removeMusicFromFavorite(this.user.id, musicId)
+                .subscribe((data) => {
+                    this.persistence.set("authenticate_user", data);
+                    this.user = data;
+                    Swal.fire(
+                        "Sucesso!",
+                        "Musica removida dos favoritos",
+                        "success"
+                    );
+                });
+        }
+    }
+
+    isFavoriteMusic(musicId) {
+        return (
+            this.user.favoriteMusics.findIndex((x) => x.musicId == musicId) !=
+            -1
+        );
     }
 }

@@ -23,5 +23,11 @@ namespace CodersAcademyBootcamp.Model
                 User = this
             });
         }
+
+        internal void RemoveFavoriteMusic(Music music)
+        {
+            var favoriteMusic = this.FavoriteMusics.Where(x => x.MusicId == music.Id).FirstOrDefault();
+            this.FavoriteMusics.Remove(favoriteMusic);
+        }
     }
 }

@@ -30,8 +30,16 @@
                                         <h3 matSubheader>Músicas</h3>
                                         <mat-list-item *ngFor="let item of music;">
                                             <mat-icon class="mr-24">play_circle_filled</mat-icon>
-                                            <h1>{{item.name}}</h1>
+                                            <h2>{{item.name}}</h2>
                                             <h3 matSubheader>{{getMusicDuration(item.duration)}}</h3>
+                                            <button mat-icon-button aria-label="Toggle star"
+                                                (click)="toogleMusicFavorite(item.id)">
+                                                <mat-icon class="amber-fg" *ngIf="isFavoriteMusic(item.id)">star
+                                                </mat-icon>
+                                                <mat-icon class="secondary-text" *ngIf="!isFavoriteMusic(item.id)">
+                                                    star_border</mat-icon>
+
+                                            </button>
                                             <mat-divider></mat-divider>
                                         </mat-list-item>
                                     </mat-list>

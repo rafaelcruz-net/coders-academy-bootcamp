@@ -18,7 +18,12 @@ namespace CodersAcademyBootcamp.Repository
 
         public async Task<User> AuthenticateAsync(string email, string password)
         {
-            return await this.Context.Users.Where(x => x.Password == password && x.Email == email).FirstOrDefaultAsync();
+            return await this.Context.Users
+                                     .Include(x => x.FavoriteMusics)
+                                     .ThenInclude(x => x.Music)
+                                     .ThenInclude(x => x.Album)
+                                     .Where(x => x.Password == password && x.Email == email)
+                                     .FirstOrDefaultAsync();
         }
 
         public async Task CreateAsync(User user)
@@ -29,11 +34,18 @@ namespace CodersAcademyBootcamp.Repository
 
         public async Task<IList<UserFavoriteMusic>> GetFavoriteMusicAsync(Guid id) => await this.Context.Users
                                                                                                    .Include(x => x.FavoriteMusics)
+                                                                                                   .ThenInclude(x => x.Music)
+                                                                                                   .ThenInclude(x => x.Album) 
                                                                                                    .Where(x => x.Id == id)
                                                                                                    .SelectMany(x => x.FavoriteMusics)
                                                                                                    .ToListAsync();
 
-        public async Task<User> GetUserAsync(Guid id) => await this.Context.Users.Include(x => x.FavoriteMusics).Where(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<User> GetUserAsync(Guid id) => await this.Context.Users
+                                                                           .Include(x => x.FavoriteMusics)
+                                                                           .ThenInclude(x => x.Music)
+                                                                           .ThenInclude(x => x.Album)
+                                                                           .Where(x => x.Id == id)
+                                                                           .FirstOrDefaultAsync();
 
         public async Task UpdateAsync(User user)
         {

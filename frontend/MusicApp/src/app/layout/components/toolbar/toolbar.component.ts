@@ -16,7 +16,6 @@ import { Router } from "@angular/router";
     selector: "toolbar",
     templateUrl: "./toolbar.component.html",
     styleUrls: ["./toolbar.component.scss"],
-    encapsulation: ViewEncapsulation.None,
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
     horizontalNavbar: boolean;
@@ -31,13 +30,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // Private
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {TranslateService} _translateService
-     */
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
@@ -51,13 +43,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.user = this._persistence.get("authenticate_user");
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void {
         // Subscribe to the config changes
         this._fuseConfigService.config

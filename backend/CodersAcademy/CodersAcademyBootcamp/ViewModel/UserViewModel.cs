@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CodersAcademyBootcamp.ViewModel
 {
-    public class SignInResultViewModel
+    public class UserViewModel
     {
         public Guid Id { get; set; }
         public String Name { get; set; }

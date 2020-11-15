@@ -9,10 +9,17 @@ export const navigation: FuseNavigation[] = [
         children: [
             {
                 id: "music",
-                title: "music",
+                title: "Músicas",
                 type: "item",
                 icon: "keyboard_arrow_right",
                 url: "/page/music",
+            },
+            {
+                id: "favorite",
+                title: "Playlist",
+                type: "item",
+                icon: "queue_music",
+                url: "/page/favorite",
             },
         ],
     },

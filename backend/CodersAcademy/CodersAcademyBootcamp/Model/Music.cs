@@ -11,5 +11,7 @@ namespace CodersAcademyBootcamp.Model
         public String Name { get; set; }
         public int Duration { get; set; }
 
+        public Album Album { get; set; }
+
     }
 }

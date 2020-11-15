@@ -18,7 +18,7 @@ namespace CodersAcademyBootcamp.Repository
 
         public async Task<IList<Album>> GetAllAsync() => await this.Context.Albums.ToListAsync();
 
-        public async Task<Album> GetAlbumByIdAsync(Guid id) => await this.Context.Albums.Include(x => x.Musics).Where(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<Album> GetAlbumByIdAsync(Guid id) => await this.Context.Albums.Where(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task SaveAsync(Album album)
         {
