@@ -1,62 +1,85 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
+import { FuseConfigService } from "@fuse/services/config.service";
+import { PersistenceService } from "app/services/persistence.service";
+import { UserService } from "app/services/user.service";
+import swal from "sweetalert2";
 
 @Component({
-    selector     : 'login',
-    templateUrl  : './login.component.html',
-    styleUrls    : ['./login.component.scss'],
+    selector: "login",
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.scss"],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
 })
-export class LoginComponent implements OnInit
-{
+export class LoginComponent implements OnInit {
     loginForm: FormGroup;
-
-    /**
-     * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FormBuilder} _formBuilder
-     */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
-    )
-    {
-        // Configure the layout
-        this._fuseConfigService.config = {
+        private fuseConfigService: FuseConfigService,
+        private formBuilder: FormBuilder,
+        private service: UserService,
+        private persistence: PersistenceService,
+        private router: Router
+    ) {
+        this.fuseConfigService.config = {
             layout: {
-                navbar   : {
-                    hidden: true
+                navbar: {
+                    hidden: true,
                 },
-                toolbar  : {
-                    hidden: true
+                toolbar: {
+                    hidden: true,
                 },
-                footer   : {
-                    hidden: true
+                footer: {
+                    hidden: true,
                 },
                 sidepanel: {
-                    hidden: true
-                }
-            }
+                    hidden: true,
+                },
+            },
         };
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        this.loginForm = this._formBuilder.group({
-            email   : ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
+    ngOnInit(): void {
+        this.loginForm = this.formBuilder.group({
+            email: ["", [Validators.required, Validators.email]],
+            password: ["", Validators.required],
         });
+    }
+
+    login(loginForm) {
+        if (loginForm.isValid === false) {
+            return;
+        }
+
+        let email = this.loginForm.get("email").value;
+        let password = this.loginForm.get("password").value;
+
+        this.service
+            .authenticate({
+                email: email,
+                password: password,
+            })
+            .subscribe(
+                (data) => {
+                    this.fuseConfigService.config = {
+                        layout: {
+                            navbar: {
+                                hidden: false,
+                            },
+                            toolbar: {
+                                hidden: false,
+                            },
+                        },
+                    };
+                    this.persistence.set("authenticate_user", data);
+                    this.router.navigate(["/"]);
+                },
+                (error) => {
+                    if (error.status === 422) {
+                        swal.fire("Ops!", "Email ou senha invalido", "error");
+                    }
+                }
+            );
     }
 }

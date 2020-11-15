@@ -15,6 +15,7 @@ namespace CodersAcademyBootcamp.Repository.Mapping
             builder.ToTable("Albuns");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Property(x => x.Band).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Description).IsRequired().HasMaxLength(500);
             builder.Property(x => x.Backdrop).IsRequired();

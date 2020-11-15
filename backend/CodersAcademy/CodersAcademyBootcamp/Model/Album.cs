@@ -11,6 +11,7 @@ namespace CodersAcademyBootcamp.Model
         public String Name { get; set; }
         public String Description { get; set; }
         public String Backdrop { get; set; }
+        public String Band { get; set; }
 
         public IList<Music> Musics { get; set; }
 

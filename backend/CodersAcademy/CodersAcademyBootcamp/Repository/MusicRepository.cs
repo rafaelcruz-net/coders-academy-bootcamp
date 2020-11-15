@@ -20,5 +20,8 @@ namespace CodersAcademyBootcamp.Repository
                                                                                                     .Where(x => x.Id == albumId)
                                                                                                     .SelectMany(x => x.Musics)
                                                                                                     .ToListAsync();
+
+        public async Task<Music> GetMusicAsync(Guid musicId) => await this.Context.Musics.Where(x => x.Id == musicId).FirstOrDefaultAsync();
+
     }
 }

@@ -13,6 +13,8 @@ namespace CodersAcademyBootcamp.Repository
     {
         public DbSet<Album> Albums { get; set; }
         public DbSet<Music> Musics { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserFavoriteMusic> UsersPlaylist { get; set; }
 
         public BootcampContext(DbContextOptions<BootcampContext> options) : base(options)
         {
@@ -23,6 +25,8 @@ namespace CodersAcademyBootcamp.Repository
         {
             modelBuilder.ApplyConfiguration(new AlbumMapping());
             modelBuilder.ApplyConfiguration(new MusicMapping());
+            modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new UserFavoriteMusicMapping());
 
             base.OnModelCreating(modelBuilder);
         }

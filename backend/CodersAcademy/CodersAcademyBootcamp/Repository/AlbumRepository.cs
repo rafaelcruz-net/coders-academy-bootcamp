@@ -34,7 +34,7 @@ namespace CodersAcademyBootcamp.Repository
 
         public async Task UpdateAsync(Album album)
         {
-            this.Context.Update(album);
+            this.Context.Albums.Update(album);
             await this.Context.SaveChangesAsync();
         }
     }

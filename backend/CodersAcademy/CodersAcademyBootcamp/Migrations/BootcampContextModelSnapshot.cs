@@ -26,6 +26,11 @@ namespace CodersAcademyBootcamp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Band")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -65,6 +70,59 @@ namespace CodersAcademyBootcamp.Migrations
                     b.ToTable("Music");
                 });
 
+            modelBuilder.Entity("CodersAcademyBootcamp.Model.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Photo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("CodersAcademyBootcamp.Model.UserFavoriteMusic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MusicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFavoriteMusic");
+                });
+
             modelBuilder.Entity("CodersAcademyBootcamp.Model.Music", b =>
                 {
                     b.HasOne("CodersAcademyBootcamp.Model.Album", null)
@@ -73,9 +131,32 @@ namespace CodersAcademyBootcamp.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("CodersAcademyBootcamp.Model.UserFavoriteMusic", b =>
+                {
+                    b.HasOne("CodersAcademyBootcamp.Model.Music", "Music")
+                        .WithOne()
+                        .HasForeignKey("CodersAcademyBootcamp.Model.UserFavoriteMusic", "MusicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodersAcademyBootcamp.Model.User", "User")
+                        .WithMany("FavoriteMusics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Music");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CodersAcademyBootcamp.Model.Album", b =>
                 {
                     b.Navigation("Musics");
+                });
+
+            modelBuilder.Entity("CodersAcademyBootcamp.Model.User", b =>
+                {
+                    b.Navigation("FavoriteMusics");
                 });
 #pragma warning restore 612, 618
         }

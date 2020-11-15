@@ -27,7 +27,7 @@ namespace CodersAcademyBootcamp.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet()]
         public async Task<IActionResult> GetAllMusic(Guid albumId)
         {
             var music = await this.MusicRepository.GetMusicFromAlbum(albumId);

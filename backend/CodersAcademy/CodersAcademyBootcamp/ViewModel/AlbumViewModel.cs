@@ -12,7 +12,12 @@ namespace CodersAcademyBootcamp.ViewModel
         
         [Required]
         public String Name { get; set; }
-        
+
+
+        [Required]
+        public String Band { get; set; }
+
+
         [Required]
         public String Description { get; set; }
         
