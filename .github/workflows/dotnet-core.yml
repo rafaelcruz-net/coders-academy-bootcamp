@@ -20,7 +20,7 @@ jobs:
       with:
         dotnet-version: 5.0.100
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore backend/CodersAcademy/CodersAcademy.sln
     - name: Build
       run: dotnet build backend/CodersAcademy/CodersAcademy.sln --configuration Release --no-restore
     - name: Test
