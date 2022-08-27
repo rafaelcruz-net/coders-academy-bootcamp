@@ -31,7 +31,7 @@ namespace Spotify
         {
             services.AddDbContext<Repository.SpotifyContext>(opt =>
             {
-                opt.UseSqlite(this.Configuration.GetConnectionString("SpotifyConnection"));
+                opt.UseSqlServer(this.Configuration.GetConnectionString("SpotifyConnection"));
             });
 
             services.AddAutoMapper(typeof(Startup).Assembly);
