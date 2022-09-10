@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Spotify.Infrastructure;
 
 namespace Spotify.Controllers
 {
@@ -18,10 +20,16 @@ namespace Spotify.Controllers
         private AlbumRepository AlbumRepository { get; init; }
         private IMapper Mapper { get; init; }
 
-        public AlbumController(AlbumRepository albumRepository, IMapper mapper)
+        private IHttpClientFactory httpClientFactory;
+
+        private AzureBlobStorage storage;
+
+        public AlbumController(AlbumRepository albumRepository, IMapper mapper, IHttpClientFactory httpClientFactory, AzureBlobStorage storage)
         {
             this.AlbumRepository = albumRepository;
             this.Mapper = mapper;
+            this.httpClientFactory = httpClientFactory;
+            this.storage = storage;
         }
 
         [HttpGet]
@@ -46,6 +54,22 @@ namespace Spotify.Controllers
 
             Album album = this.Mapper.Map<Album>(model);
 
+            HttpClient httpClient = this.httpClientFactory.CreateClient();
+            
+            using var response = await httpClient.GetAsync(album.Backdrop);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var stream = await response.Content.ReadAsStreamAsync();
+
+                var fileName = $"{Guid.NewGuid()}.jpg";
+
+                var pathStorage = await this.storage.UploadFile(fileName, stream);
+
+                album.Backdrop = pathStorage;
+                
+            }
+            
             await this.AlbumRepository.SaveAsync(album);
 
             return Created($"/{album.Id}", album);

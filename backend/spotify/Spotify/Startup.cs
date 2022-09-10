@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Spotify.Infrastructure;
 
 namespace Spotify
 {
@@ -39,6 +40,9 @@ namespace Spotify
             services.AddScoped<AlbumRepository>();
             services.AddScoped<MusicRepository>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<AzureBlobStorage>();
+
+            services.AddHttpClient();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
