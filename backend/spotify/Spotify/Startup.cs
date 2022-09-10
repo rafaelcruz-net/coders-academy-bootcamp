@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Spotify.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Spotify
 {
@@ -42,6 +45,21 @@ namespace Spotify
             services.AddScoped<UserRepository>();
             services.AddScoped<AzureBlobStorage>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateAudience = true,
+                        ValidIssuer = "http://127.0.0.1:80",
+                        ValidAudience = "spotify-api",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ACDt1vR3lXToPQ1g3MyN"))
+                    };
+                });
+
             services.AddHttpClient();
 
             services.AddControllers();
@@ -64,6 +82,7 @@ namespace Spotify
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

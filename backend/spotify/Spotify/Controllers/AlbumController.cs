@@ -10,11 +10,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Spotify.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spotify.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AlbumController : ControllerBase
     {
         private AlbumRepository AlbumRepository { get; init; }
